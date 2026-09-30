@@ -1,5 +1,6 @@
 "use client";
 import { CollapsibleSection } from "@/components/studio/CollapsibleSection";
+import { GenerationQueue } from "@/components/studio/GenerationQueue";
 import { promptPresets } from "@/data/presets";
 import { useMemo, useState } from "react";
 import {
@@ -116,6 +117,11 @@ const [movementIntensity, setMovementIntensity] = useState("random");
               </div>
             ))}
           </div>
+          <GenerationQueue
+            items={mediaItems}
+            selectedId={selectedMedia?.id ?? null}
+            onSelect={setSelectedMediaId}
+          />
         </section>
 
         <aside className="panel controls-panel">

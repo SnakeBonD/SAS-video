@@ -1,0 +1,54 @@
+[
+  {
+    "name": "desktop",
+    "width": 1440,
+    "height": 1000,
+    "dimensions": {
+      "viewport": 1440,
+      "document": 1440
+    },
+    "overflow": false,
+    "errors": [],
+    "apiRequests": [],
+    "scenarios": "empty, import 2, pending statuses, selection, keyboard, disabled generation, removal, reimport, reload"
+  },
+  {
+    "name": "tablet",
+    "width": 834,
+    "height": 1112,
+    "dimensions": {
+      "viewport": 834,
+      "document": 834
+    },
+    "overflow": false,
+    "errors": [],
+    "apiRequests": [],
+    "scenarios": "empty, import 2, pending statuses, selection, keyboard, disabled generation, removal, reimport, reload"
+  },
+  {
+    "name": "mobile",
+    "width": 390,
+    "height": 844,
+    "dimensions": {
+      "viewport": 390,
+      "document": 390
+    },
+    "overflow": false,
+    "errors": [],
+    "apiRequests": [],
+    "scenarios": "empty, import 2, pending statuses, selection, keyboard, disabled generation, removal, reimport, reload"
+  },
+  {
+    "name": "small-mobile",
+    "width": 320,
+    "height": 740,
+    "dimensions": {
+      "viewport": 320,
+      "document": 320
+    },
+    "overflow": false,
+    "errors": [],
+    "apiRequests": [],
+    "scenarios": "empty, import 2, pending statuses, selection, keyboard, disabled generation, removal, reimport, reload"
+  }
+]

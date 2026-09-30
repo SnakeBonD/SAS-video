@@ -7,12 +7,15 @@ import {
   useState,
 } from "react";
 
+import type { GenerationStatus } from "@/lib/generation-queue";
+
 const MAX_FILE_SIZE = 12 * 1024 * 1024;
 
 export type MediaItem = {
   id: string;
   file: File;
   previewUrl: string;
+  generationStatus: GenerationStatus;
 };
 
 type MediaPanelProps = {
@@ -48,10 +51,11 @@ export function MediaPanel({
       return true;
     });
 
-    const newItems = validFiles.map((file) => ({
+    const newItems: MediaItem[] = validFiles.map((file) => ({
       id: crypto.randomUUID(),
       file,
       previewUrl: URL.createObjectURL(file),
+      generationStatus: "queued",
     }));
 
     if (newItems.length === 0) {

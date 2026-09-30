@@ -33,3 +33,11 @@ npm run build
 ```
 
 Live video generation is planned for v0.2 with server-side provider credentials.
+
+### Local generation queue
+Imported images appear in order with an individual pending status. Selecting a queue
+entry updates the preview; removing a source also removes its queue entry. The counter
+tracks completed videos (0 / N until the v0.2 provider is connected), not uploaded images.
+No simulated jobs or provider requests run. The queue and images remain in memory and
+are cleared when the page reloads. Status types also cover running, completed and failed
+jobs for the future provider integration.
