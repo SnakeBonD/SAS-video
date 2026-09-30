@@ -177,6 +177,87 @@ h2 {
   font-size: 22px;
 }
 
+.collapsible-section {
+  border-top: 1px solid var(--line);
+}
+
+.collapsible-section:last-of-type {
+  border-bottom: 1px solid var(--line);
+}
+
+.collapsible-summary {
+  min-height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+
+.collapsible-summary::-webkit-details-marker {
+  display: none;
+}
+
+.collapsible-summary > div:first-child {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.collapsible-summary strong {
+  font-size: 13px;
+  font-weight: 550;
+  letter-spacing: -0.01em;
+}
+
+.collapsible-eyebrow {
+  color: var(--muted);
+  font:
+    500 8px/1 "JetBrains Mono",
+    ui-monospace,
+    monospace;
+  letter-spacing: 0.13em;
+}
+
+.collapsible-meta {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.section-badge {
+  padding: 4px 6px;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  font:
+    500 7px/1 "JetBrains Mono",
+    ui-monospace,
+    monospace;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.collapsible-chevron {
+  color: var(--green);
+  font-size: 13px;
+  transition: transform 0.2s ease;
+}
+
+.collapsible-section[open] .collapsible-chevron {
+  transform: rotate(180deg);
+}
+
+.collapsible-content {
+  padding: 2px 0 20px;
+}
+
+.collapsible-summary:hover strong {
+  color: var(--green);
+}
+
 /* MEDIA */
 
 .panel-heading {
@@ -650,7 +731,10 @@ select:focus {
 
 .generate-button:disabled {
   cursor: not-allowed;
-  opacity: 0.4;
+  opacity: 1;
+  background: #18201c;
+  color: #66706a;
+  border: 1px solid var(--line);
 }
 
 .generation-note {

@@ -1,4 +1,5 @@
 "use client";
+import { CollapsibleSection } from "@/components/studio/CollapsibleSection";
 import { promptPresets } from "@/data/presets";
 import { useMemo, useState } from "react";
 import {
@@ -120,110 +121,128 @@ const [movementIntensity, setMovementIntensity] = useState("random");
         <aside className="panel controls-panel">
           <div className="eyebrow">03 / DIRECTION</div>
 
-          <label>
-            <span>Prompt</span>
+<CollapsibleSection
+  eyebrow="VISION"
+  title="Direction"
+  badge="Recommended"
+  defaultOpen
+>
+  <label>
+    <span>Prompt</span>
+    <textarea
+      value={prompt}
+      onChange={(event) => setPrompt(event.target.value)}
+      placeholder="Describe the movement, atmosphere and camera direction..."
+    />
+  </label>
 
-            <textarea
-              value={prompt}
-              onChange={(event) => setPrompt(event.target.value)}
-            />
-          </label>
-<div className="prompt-presets">
-  {promptPresets.map((preset) => (
+  <div className="prompt-presets">
+    {promptPresets.map((preset) => (
+      <button
+        key={preset.id}
+        type="button"
+        className="preset-button"
+        onClick={() => setPrompt(preset.prompt)}
+      >
+        {preset.name}
+      </button>
+    ))}
+  </div>
+</CollapsibleSection>
+
+<CollapsibleSection
+  eyebrow="SETTINGS"
+  title="Generation"
+  badge="6.4s recommended"
+  defaultOpen
+>
+  <div className="control-grid">
+    <label>
+      <span>Duration</span>
+      <select defaultValue="6.4s">
+        <option value="5s">5s</option>
+        <option value="6.4s">6.4s · Recommended</option>
+        <option value="10s">10s</option>
+      </select>
+    </label>
+
+    <label>
+      <span>Framing</span>
+      <select defaultValue="random">
+        <option value="random">Random</option>
+        <option value="close">Close</option>
+        <option value="medium">Medium</option>
+        <option value="wide">Wide</option>
+      </select>
+    </label>
+
+    <label className="control-wide">
+      <span>Movement intensity</span>
+      <select
+        value={movementIntensity}
+        onChange={(event) =>
+          setMovementIntensity(event.target.value)
+        }
+      >
+        <option value="random">Random</option>
+        <option value="subtle">Subtle</option>
+        <option value="moderate">Moderate</option>
+        <option value="strong">Strong</option>
+      </select>
+    </label>
+  </div>
+</CollapsibleSection>
+
+<CollapsibleSection
+  eyebrow="EFFECTS"
+  title="Visual treatment"
+  badge="24 + original"
+  defaultOpen={false}
+>
+  <div className="effects-list" id="effects">
     <button
-      key={preset.id}
       type="button"
-      className="preset-button"
-      onClick={() => setPrompt(preset.prompt)}
-      title={preset.name}
+      className={
+        selectedEffect === "none"
+          ? "effect active"
+          : "effect"
+      }
+      onClick={() => setSelectedEffect("none")}
     >
-      {preset.name}
+      <span>Aucun effet</span>
+      <small>Original</small>
     </button>
-  ))}
-</div>
-<div className="control-grid">
-  <label>
-    <span>Duration</span>
-    <select defaultValue="6.4s">
-      <option value="5s">5s</option>
-      <option value="6.4s">6.4s · Recommended</option>
-      <option value="10s">10s</option>
-    </select>
-  </label>
 
-  <label>
-    <span>Framing</span>
-    <select defaultValue="random">
-      <option value="random">Random</option>
-      <option value="close">Close</option>
-      <option value="medium">Medium</option>
-      <option value="wide">Wide</option>
-    </select>
-  </label>
+    {effects.map((effect) => (
+      <button
+        type="button"
+        className={
+          effect.id === selectedEffect
+            ? "effect active"
+            : "effect"
+        }
+        onClick={() => setSelectedEffect(effect.id)}
+        key={effect.id}
+      >
+        <span>{effect.name}</span>
+        <small>{effect.group}</small>
+      </button>
+    ))}
+  </div>
 
-  <label className="control-wide">
-    <span>Movement intensity</span>
-    <select
-      value={movementIntensity}
-      onChange={(event) => setMovementIntensity(event.target.value)}
-    >
-      <option value="random">Random</option>
-      <option value="subtle">Subtle</option>
-      <option value="moderate">Moderate</option>
-      <option value="strong">Strong</option>
-    </select>
-  </label>
-</div>
-
-          <div className="section-rule" />
-
-          <div className="eyebrow" id="effects">
-            EFFECT LIBRARY
-          </div>
-
-          <div className="effects-list">
-            <button
-              type="button"
-              className={
-                selectedEffect === "none"
-                  ? "effect active"
-                  : "effect"
-              }
-              onClick={() => setSelectedEffect("none")}
-            >
-              <span>Aucun effet</span>
-              <small>Original</small>
-            </button>
-
-            {effects.map((effect) => (
-              <button
-                type="button"
-                className={
-                  effect.id === selectedEffect
-                    ? "effect active"
-                    : "effect"
-                }
-                onClick={() => setSelectedEffect(effect.id)}
-                key={effect.id}
-              >
-                <span>{effect.name}</span>
-                <small>{effect.group}</small>
-              </button>
-            ))}
-          </div>
-
-          <div className="effect-description">
-            {selectedEffect === "none"
-              ? "Aucune transformation visuelle appliquée."
-              : selectedEffectData.description}
-          </div>
+  <div className="effect-description">
+    {selectedEffect === "none"
+      ? "Aucune transformation visuelle appliquée."
+      : selectedEffectData.description}
+  </div>
+</CollapsibleSection>
 
           <button
             className="generate-button"
             type="button"
             disabled
           >
-            GENERATE VIDEO <span>→</span>
+            GENERATION AVAILABLE IN V0.2 <span>→</span>
           </button>
 
           <small className="generation-note">
