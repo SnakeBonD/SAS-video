@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 
 type CollapsibleSectionProps = {
+  id?: string;
   title: string;
   eyebrow?: string;
   badge?: string;
@@ -11,6 +12,7 @@ type CollapsibleSectionProps = {
 };
 
 export function CollapsibleSection({
+  id,
   title,
   eyebrow,
   badge,
@@ -18,7 +20,7 @@ export function CollapsibleSection({
   children,
 }: CollapsibleSectionProps) {
   return (
-    <details className="collapsible-section" open={defaultOpen}>
+    <details id={id} className="collapsible-section" open={defaultOpen}>
       <summary className="collapsible-summary">
         <div>
           {eyebrow && <span className="collapsible-eyebrow">{eyebrow}</span>}

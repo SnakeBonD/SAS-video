@@ -9,7 +9,8 @@ import {
 
 import type { GenerationStatus } from "@/lib/generation-queue";
 
-const MAX_FILE_SIZE = 12 * 1024 * 1024;
+import Image from "next/image";
+import { moveMediaItem, validateMediaFile } from "@/lib/media";
 
 export type MediaItem = {
   id: string;
@@ -38,18 +39,13 @@ export function MediaPanel({
   function addFiles(files: File[]) {
     setError(null);
 
+    const errors: string[] = [];
     const validFiles = files.filter((file) => {
-      if (!file.type.startsWith("image/")) {
-        return false;
-      }
-
-      if (file.size > MAX_FILE_SIZE) {
-        setError(`"${file.name}" dépasse la limite de 12 Mo.`);
-        return false;
-      }
-
-      return true;
+      const message = validateMediaFile(file);
+      if (message) errors.push(message);
+      return message === null;
     });
+    setError(errors.length ? errors.join(" ") : null);
 
     const newItems: MediaItem[] = validFiles.map((file) => ({
       id: crypto.randomUUID(),
@@ -114,7 +110,7 @@ export function MediaPanel({
       <input
         ref={inputRef}
         type="file"
-        accept="image/*"
+        accept="image/jpeg,image/png,image/webp"
         multiple
         hidden
         onChange={handleInput}
@@ -127,6 +123,7 @@ export function MediaPanel({
         onClick={() => inputRef.current?.click()}
         onKeyDown={(event) => {
           if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
             inputRef.current?.click();
           }
         }}
@@ -171,9 +168,10 @@ export function MediaPanel({
                 type="button"
                 className="media-preview"
                 onClick={() => onSelect(item.id)}
+                aria-pressed={selectedId === item.id}
                 aria-label={`Sélectionner l'image ${index + 1}`}
               >
-                <img
+                <Image unoptimized fill
                   src={item.previewUrl}
                   alt={`Image source ${index + 1}`}
                 />
@@ -192,6 +190,24 @@ export function MediaPanel({
               >
                 ×
               </button>
+              <div className="media-order" aria-label={`Ordre de l’image ${index + 1}`}>
+                <button
+                  type="button"
+                  disabled={index === 0}
+                  aria-label={`Avancer l’image ${index + 1}`}
+                  onClick={() => onChange(moveMediaItem(items, item.id, -1))}
+                >
+                  ←
+                </button>
+                <button
+                  type="button"
+                  disabled={index === items.length - 1}
+                  aria-label={`Reculer l’image ${index + 1}`}
+                  onClick={() => onChange(moveMediaItem(items, item.id, 1))}
+                >
+                  →
+                </button>
+              </div>
             </article>
           ))}
         </div>

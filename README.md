@@ -21,12 +21,13 @@ No decorative snakes are used anywhere in the product. The only snake mark permi
 
 ### Development
 ```bash
-npm install
+npm ci
 npm run dev
 ```
 
 ### Checks
 ```bash
+npm run lint
 npm run typecheck
 npm run test
 npm run build
@@ -41,3 +42,23 @@ tracks completed videos (0 / N until the v0.2 provider is connected), not upload
 No simulated jobs or provider requests run. The queue and images remain in memory and
 are cleared when the page reloads. Status types also cover running, completed and failed
 jobs for the future provider integration.
+
+### Browser regression tests
+After `npm run build`, run `npx playwright install chromium`, then `npm run test:e2e`.
+The suite starts its own production server on localhost:3102 and checks desktop,
+tablet and two mobile sizes. Stop any other process using that port first.
+GitHub CI uses `npm ci` and runs lint, typecheck, unit tests, build and browser tests.
+
+### Source media
+Use the arrow buttons below each image to change its generation order. Selection
+stays attached to the same image. JPG, PNG and WEBP up to 12 MiB are accepted;
+empty files and unsupported MIME types are reported without discarding valid files
+from the same import. This is local input validation; future uploads require server
+validation too. Preview object URLs are released on removal and studio unmount.
+
+### Dependency maintenance
+Vitest 4.1.11 and PostCSS 8.5.28 address the reported dependency advisories. Next.js
+15.5.27's nested PostCSS is overridden to the same tested 8.5.28 version; review this
+override when upgrading Next.js. Vite 7.3.6 is pinned for compatible test tooling.
+ESLint 9 is used with Next.js 15's configuration; npm reports that this ESLint major
+is no longer maintained. Plan a coordinated lint/framework upgrade separately.

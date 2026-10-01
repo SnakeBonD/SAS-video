@@ -2,7 +2,8 @@
 import { CollapsibleSection } from "@/components/studio/CollapsibleSection";
 import { GenerationQueue } from "@/components/studio/GenerationQueue";
 import { promptPresets } from "@/data/presets";
-import { useMemo, useState } from "react";
+import Image from "next/image";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   MediaPanel,
   type MediaItem,
@@ -11,6 +12,11 @@ import { effects } from "@/data/effects";
 
 export function StudioShell() {
   const [mediaItems, setMediaItems] = useState<MediaItem[]>([]);
+  const mediaRef = useRef(mediaItems);
+  useEffect(() => { mediaRef.current = mediaItems; }, [mediaItems]);
+  useEffect(() => () => {
+    for (const item of mediaRef.current) URL.revokeObjectURL(item.previewUrl);
+  }, []);
   const [selectedMediaId, setSelectedMediaId] = useState<string | null>(null);
 
   const [prompt, setPrompt] = useState(
@@ -56,7 +62,10 @@ const [movementIntensity, setMovementIntensity] = useState("random");
 
         <nav aria-label="Navigation principale">
           <a href="#studio">Studio</a>
-          <a href="#effects">Effects</a>
+          <a href="#effects" onClick={() => {
+            const section = document.getElementById("effects");
+            if (section instanceof HTMLDetailsElement) section.open = true;
+          }}>Effects</a>
           <a href="#project">Project</a>
         </nav>
 
@@ -85,8 +94,7 @@ const [movementIntensity, setMovementIntensity] = useState("random");
 
           <div className="preview-stage">
             {selectedMedia ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
+              <Image unoptimized fill
                 src={selectedMedia.previewUrl}
                 alt="Image source sélectionnée"
               />
@@ -200,12 +208,13 @@ const [movementIntensity, setMovementIntensity] = useState("random");
 </CollapsibleSection>
 
 <CollapsibleSection
+  id="effects"
   eyebrow="EFFECTS"
   title="Visual treatment"
   badge="24 + original"
   defaultOpen={false}
 >
-  <div className="effects-list" id="effects">
+  <div className="effects-list">
     <button
       type="button"
       className={

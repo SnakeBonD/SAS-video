@@ -981,3 +981,22 @@ select:focus {
   .queue-item { grid-template-columns: 20px 36px minmax(0, 1fr); gap: 8px; }
   .queue-status { grid-column: 3; }
 }
+
+.media-order { display: flex; gap: 4px; margin-top: 4px; }
+.media-order button {
+  flex: 1;
+  min-height: 44px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+}
+.media-order button:disabled { opacity: 0.35; cursor: not-allowed; }
+.media-order button:hover:not(:disabled) { border-color: var(--green); }
+.media-order button:focus-visible, .media-remove:focus-visible, .media-preview:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 2px;
+}
+.media-remove { width: 44px; height: 44px; }
+
+#effects { scroll-margin-top: 80px; }

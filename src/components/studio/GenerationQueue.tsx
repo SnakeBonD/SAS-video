@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import type { MediaItem } from "@/components/media/MediaPanel";
 import { generationStatusLabels, getQueueSummary } from "@/lib/generation-queue";
 
@@ -47,7 +48,7 @@ export function GenerationQueue({ items, selectedId, onSelect }: GenerationQueue
                 onClick={() => onSelect(item.id)}
               >
                 <span className="queue-position">{String(index + 1).padStart(2, "0")}</span>
-                <img src={item.previewUrl} alt="" width={36} height={48} />
+                <Image unoptimized src={item.previewUrl} alt="" width={36} height={48} />
                 <span className="queue-filename" title={item.file.name}>{item.file.name}</span>
                 <span className={`queue-status queue-status-${item.generationStatus}`}>
                   {generationStatusLabels[item.generationStatus]}
